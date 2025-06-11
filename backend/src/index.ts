@@ -1,9 +1,12 @@
 import express, { Request, Response } from "express";
+import path from "path";
 import { imageSave } from "./utils/asyncStorageIMG";
 import mysql, { RowDataPacket } from "mysql2/promise";
 
 const app = express();
 app.use(express.json());
+//        rota buscada                      rota de referencia
+app.use("/images", express.static(path.join(__dirname, `/images`)));
 
 const pool = mysql.createPool({
   host: "172.19.205.207",
@@ -15,8 +18,16 @@ const pool = mysql.createPool({
   queueLimit: 0,
 });
 
-interface BooksInfo extends RowDataPacket {
+interface GetBooks extends RowDataPacket {
   id?: number;
+  title: string;
+  autor: string;
+  publish_date: string;
+  image: string;
+  description: string;
+}
+
+interface DataBooksToSend {
   title: string;
   autor: string;
   publish_date: string;
@@ -26,7 +37,7 @@ interface BooksInfo extends RowDataPacket {
 
 app.get("/books", async (req: Request, res: Response) => {
   try {
-    const [rows] = await pool.query<BooksInfo[]>("SELECT * FROM books");
+    const [rows] = await pool.query<GetBooks[]>("SELECT * FROM books");
     res.status(200).json(rows);
   } catch (err) {
     res.status(400).send("erro ao buscar livros");
@@ -45,13 +56,16 @@ app.post(
       const [day, month, year] = date.split("/");
       return `${year}-${month}-${day}`;
     };
-    const data: BooksInfo = {
+    const data: DataBooksToSend = {
       title: req.body.title,
       autor: req.body.autor,
       publish_date: formatDate(
         new Date(req.body.publish_date).toLocaleDateString()
       ),
-      image: `/image/img${req.file.originalname}`,
+      image: `http://localhost:8080/images/img-${req.file.originalname.replaceAll(
+        / /g,
+        "-"
+      )}`,
       description: req.body.description,
     };
     try {
@@ -65,10 +79,8 @@ app.post(
           data.description,
         ]
       );
-      console.log(data);
       res.status(201).send("Livro adicionado");
     } catch (err) {
-      console.log(err);
       res.status(400).json({ error: "erro ao adicionar o livro" });
     }
   }

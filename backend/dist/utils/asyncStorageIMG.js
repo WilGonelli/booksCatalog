@@ -7,7 +7,7 @@ exports.imageSave = void 0;
 const multer_1 = __importDefault(require("multer"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const imageStorageDir = path_1.default.join(__dirname, "..", "images");
+const imageStorageDir = path_1.default.join(__dirname, "../images");
 if (!fs_1.default.existsSync(imageStorageDir)) {
     fs_1.default.mkdirSync(imageStorageDir, { recursive: true });
 }
@@ -16,7 +16,7 @@ const storage = multer_1.default.diskStorage({
         cb(null, imageStorageDir);
     },
     filename: (req, file, cb) => {
-        const filename = `img${file.originalname}`;
+        const filename = `img-${file.originalname.replaceAll(/ /g, "-")}`;
         cb(null, filename);
     },
 });
