@@ -59,6 +59,46 @@ app.post("/book", asyncStorageIMG_1.imageSave.single("image"), async (req, res) 
         res.status(400).json({ error: "erro ao adicionar o livro" });
     }
 });
+app.put("/book/:id", asyncStorageIMG_1.imageSave.single("image"), async (req, res) => {
+    if (!req.file || !req.body) {
+        res.status(400).send("Nenhuma imagem foi enviada.");
+        return;
+    }
+    const formatDate = (date) => {
+        const [day, month, year] = date.split("/");
+        return `${year}-${month}-${day}`;
+    };
+    const data = {
+        title: req.body.title,
+        autor: req.body.autor,
+        publish_date: formatDate(new Date(req.body.publish_date).toLocaleDateString()),
+        image: `http://localhost:8080/images/img-${req.file.originalname.replaceAll(/ /g, "-")}`,
+        description: req.body.description,
+    };
+    try {
+        await pool.query("UPDATE books SET title = ?, autor = ?, publish_date = ?, image = ?, description = ? WHERE id = ?", [
+            data.title,
+            data.autor,
+            data.publish_date,
+            data.image,
+            data.description,
+            req.params.id,
+        ]);
+        res.status(201).send("Livro adicionado");
+    }
+    catch (err) {
+        res.status(400).json({ error: "erro ao adicionar o livro" });
+    }
+});
+app.delete("/book/:id", async (req, res) => {
+    try {
+        await pool.query("DELETE FROM books WHERE id = ?", [req.params.id]);
+        res.status(200).send("livro apagado");
+    }
+    catch (err) {
+        res.status(400).json({ error: "erro ao apagar o livro" });
+    }
+});
 app.listen(8080, () => {
     console.log(`servidor rodando na porta 8080`);
 });
