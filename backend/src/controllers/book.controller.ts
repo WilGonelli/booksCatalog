@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import * as bookRepository from "../repositories/book.repository";
 import { DataBooksToSend } from "../models/IBooks";
+import * as bookservice from "../services/book.services";
 
 export const createBook = async (req: Request, res: Response) => {
   if (
@@ -13,25 +14,15 @@ export const createBook = async (req: Request, res: Response) => {
     res.status(406).send("Todos os campos são obrigatorios.");
     return;
   }
-  const formatDate = (date: string) => {
-    const [day, month, year] = date.split("/");
-    return `${year}-${month}-${day}`;
-  };
-  const data: DataBooksToSend = {
-    title: req.body.title,
-    autor: req.body.autor,
-    publish_date: formatDate(
-      new Date(req.body.publish_date).toLocaleDateString()
-    ),
-    image: `/images/img-${req.file.originalname.replaceAll(/ /g, "-")}`,
-    description: req.body.description,
-  };
+
   try {
-    await bookRepository.insertBook(data);
-    res.status(201).send("Livro cadastrado");
+    const book: DataBooksToSend = req.body;
+    const image = `/images/img-${req.file.originalname.replaceAll(/ /g, "-")}`;
+    const result = await bookservice.createBook(book, image);
+    res.status(201).send(result);
   } catch (err: any) {
     if (err.code === "ER_DUP_ENTRY") {
-      res.status(409).send("Livro ja existe na base de dados.");
+      res.status(400).json({ message: "Livro ja existe na base de dados." });
       return;
     }
     res.status(400).json({ error: err, type: typeof err });
@@ -43,7 +34,7 @@ export const searchBook = async (req: Request, res: Response) => {
     const [rows] = await bookRepository.getBooks();
     res.status(200).json(rows);
   } catch (err) {
-    res.status(400).send("erro ao buscar livros");
+    res.status(404).send("erro ao buscar livros");
   }
 };
 
