@@ -3,22 +3,21 @@ import * as bookRepository from "../repositories/book.repository";
 import { DataBooksToSend } from "../models/IBooks";
 import * as bookservice from "../services/book.services";
 
-export const createBook = async (req: Request, res: Response) => {
-  if (
-    !req.file ||
-    !req.body.title ||
-    !req.body.autor ||
-    !req.body.publish_date ||
-    !req.body.description
-  ) {
-    res.status(406).send("Todos os campos são obrigatorios.");
-    return;
-  }
+const validateBook = (body: DataBooksToSend, file: any) => {
+  const book = {
+    title: body.title,
+    autor: body.autor,
+    publish_date: body.publish_date,
+    image: `/images/img-${file.originalname.replaceAll(/ /g, "-")}`,
+    description: body.description,
+  };
+  return book;
+};
 
+export const createBook = async (req: Request, res: Response) => {
   try {
-    const book: DataBooksToSend = req.body;
-    const image = `/images/img-${req.file.originalname.replaceAll(/ /g, "-")}`;
-    const result = await bookservice.createBook(book, image);
+    const book: DataBooksToSend = validateBook(req.body, req.file);
+    const result = await bookservice.createBook(book);
     res.status(201).send(result);
   } catch (err: any) {
     if (err.code === "ER_DUP_ENTRY") {
@@ -53,10 +52,7 @@ export const updateBookInfo = async (req: Request, res: Response) => {
     publish_date: formatDate(
       new Date(req.body.publish_date).toLocaleDateString()
     ),
-    image: `http://localhost:8080/images/img-${req.file.originalname.replaceAll(
-      / /g,
-      "-"
-    )}`,
+    image: `/images/img-${req.file.originalname.replaceAll(/ /g, "-")}`,
     description: req.body.description,
   };
   try {
