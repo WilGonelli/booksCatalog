@@ -1,5 +1,6 @@
 .containerHome {
   display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 1000px;
   box-sizing: border-box;
@@ -7,7 +8,7 @@
   gap: 64px;
 }
 
-.containerTitle {
+.containerHeader {
   display: flex;
   height: max-content;
   width: 100%;
@@ -15,14 +16,28 @@
   gap: 24px;
 }
 
-.title {
+.header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
+}
+
+.bookWorld {
   text-transform: capitalize;
   font-weight: 600;
   font-size: 40px;
+}
+
+.btn {
+  all: unset;
+  text-transform: capitalize;
+  cursor: pointer;
+  height: 29px;
+  width: 60px;
+  font-weight: 600;
+  font-size: 24px;
 }
 
 .containerInput {
@@ -41,4 +56,62 @@
   position: absolute;
   top: 11px;
   right: 10px;
+}
+
+.containerBooks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+}
+
+.containerBook {
+  width: 300px;
+  height: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+.containerImage {
+  width: 300px;
+  height: 212px;
+  padding: 16px;
+  display: flex;
+  background-color: #E0E0E2;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  height: 180px;
+}
+
+.contaonerInfo {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  height: 268px;
+  overflow: hidden;
+  padding: 16px;
+  gap: 16px;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 20px;
+  color: #111111;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 9;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: justify;
+  color: #222222;
 }
