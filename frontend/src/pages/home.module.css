@@ -43,11 +43,20 @@
 .containerInput {
   width: 100%;
   height: 54px;
+  align-items: center;
   background-color: #FFFFFF;
   padding: 17px 16px;
   box-sizing: border-box;
   border-radius: 16px;
   position: relative;
+}
+
+.input {
+  all: unset;
+  width: 100%;
+  font-weight: 400;
+  font-size: 18px;
+  color: #111111;
 }
 
 .searchIcon {
@@ -114,4 +123,154 @@
   font-weight: 400;
   text-align: justify;
   color: #222222;
+}
+
+.containerModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.containerFormsNewBook {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 780px;
+  height: 87%;
+  max-height: 700px;
+  border-radius: 16px;
+  padding: 40px;
+  gap: 32px;
+  background-color: #F0F0F0;
+  z-index: 100;
+}
+
+.titleNewBook {
+  font-weight: 600;
+  font-size: 32px;
+  color: #111111;
+  text-align: center;
+}
+
+.containerFormInfoArea {
+  display: flex;
+  height: 226px;
+  width: 100%;
+}
+
+.formTitleArea {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  height: 100%;
+  width: 65%;
+}
+
+.formImageArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  height: 100%;
+  width: 35%;
+  border-radius: 16px;
+  gap: 16px;
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.inputImage {
+  display: none;
+}
+
+.containerNewImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  background-color: #E0E0E2;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 16px;
+}
+
+.imageNewBook {
+  height: 90%;
+}
+
+.imageIcon {
+  width: 83px;
+  height: 83px;
+  font-size: 61px;
+}
+
+.lableImage {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  color: #222222;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inputNewBook {
+  all: unset;
+  background-color: #FFFFFF;
+  width: calc(100% - 32px);
+  height: 54px;
+  border-radius: 12px;
+  padding: 17px 16px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: 400;
+  color: #222222;
+}
+
+.containerDescriptionNewBook {
+  display: flex;
+  width: 100%;
+  height: 200px;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 25px 23px;
+  box-sizing: border-box;
+}
+
+.inputDescription {
+  resize: none;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  color: #222222;
+  outline: 0;
+}
+
+.inputDescription:focus {
+  box-shadow: 0 0 0 0;
+  border: 0 none;
+  outline: 0;
+}
+
+.containerBtn {
+  display: flex;
+  width: 100%;
+  height: 59px;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
 }

@@ -1,0 +1,22 @@
+.containerButtom {
+  display: flex;
+  width: 228px;
+  height: 100%;
+  border-radius: 100px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.btn {
+  all: unset;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  transition: .5s;
+}
+
+.btn:hover {
+  opacity: .6;
+}
