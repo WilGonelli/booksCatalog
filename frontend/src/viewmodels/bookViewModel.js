@@ -3,6 +3,7 @@ import { BookService } from "@/services/booksServices";
 
 export const useBooks = () => {
   const [books, setBooks] = useState([]);
+  const [book, setBook] = useState(null);
   const [inputSearch, setInputSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -17,11 +18,39 @@ export const useBooks = () => {
     setBooks(response);
   };
 
-  const filterBooks = async () => {
-    const data = await books.filter((book) =>
+  const fetchBookDetails = async (id) => {
+    const response = await BookService.getOneBook(id);
+    setBook(response[0]);
+  };
+
+  const postBook = async () => {
+    const book = {
+      title: title,
+      autor: autor,
+      description: description,
+      publishDate: new Date(publishDate).toLocaleString().split(",")[0],
+      image: image,
+    };
+    const response = await BookService.insertNewBook({ book });
+    resetVariables();
+    fetchBooks();
+  };
+
+  const filterBooks = () => {
+    const data = books.filter((book) =>
       book.title.toLowerCase().includes(inputSearch)
     );
     setBooks(data);
+  };
+
+  const resetVariables = () => {
+    setIsModalOpen(false);
+    setTitle("");
+    setAutor("");
+    setDescription("");
+    setImage(null);
+    setImagePreview(null);
+    setPublishDate(null);
   };
 
   useEffect(() => {
@@ -39,7 +68,7 @@ export const useBooks = () => {
     setInputSearch,
     isModalOpen,
     handleOpenModal: () => setIsModalOpen(true),
-    handleCloseModal: () => setIsModalOpen(false),
+    handleCloseModal: resetVariables,
     title,
     setTitle,
     autor,
@@ -52,5 +81,8 @@ export const useBooks = () => {
     setImage,
     imagePreview,
     setImagePreview,
+    postBook,
+    fetchBookDetails,
+    book,
   };
 };

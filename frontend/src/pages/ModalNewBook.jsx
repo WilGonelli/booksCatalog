@@ -18,10 +18,10 @@ const Modal = ({
   setDescription,
   publishDate,
   setPublishDate,
-  image,
   setImage,
   imagePreview,
   setImagePreview,
+  onSave,
 }) => {
   if (!isOpen) {
     return null; // Don't render if not open
@@ -105,6 +105,7 @@ const Modal = ({
             textButtom={"Salvar"}
             textColor={"#FFFFFF"}
             backgroundColor={"#0093E6"}
+            handleClick={onSave}
           />
         </div>
       </div>
