@@ -4,18 +4,29 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import styles from "./home.module.css";
+import ModalConfirm from "@/components/modals/ConfirmModal";
 
 export default function BookDetail() {
   const router = useRouter();
   const { id } = router.query;
-  const { fetchBookDetails, book } = useBooks();
+  const {
+    fetchBookDetails,
+    book,
+    deleteBook,
+    isModalOpen,
+    handleSeteModalConfirmClose,
+    handleSeteModalConfirmOpen,
+    isModalConfirmOpen,
+    handleCloseModal,
+    handleOpenModal,
+  } = useBooks();
 
   useEffect(() => {
     fetchBookDetails(id);
   }, [id]);
 
   return (
-    <div className={styles.containerDefault}>
+    <div className={styles.containerDefault} style={{ margin: -8 }}>
       <div className={styles.containerHome}>
         {book && (
           <div className={styles.containerDetails}>
@@ -35,7 +46,13 @@ export default function BookDetail() {
                 style={{ gap: 32 }}
               >
                 <p style={{ cursor: "pointer" }}> Editar </p>
-                <p className={styles.deleteBtn} style={{ cursor: "pointer" }}>
+                <p
+                  className={styles.deleteBtn}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    handleSeteModalConfirmOpen();
+                  }}
+                >
                   {" "}
                   Excluir{" "}
                 </p>
@@ -62,6 +79,11 @@ export default function BookDetail() {
           </div>
         )}
       </div>
+      <ModalConfirm
+        isOpen={isModalConfirmOpen}
+        onClose={handleSeteModalConfirmClose}
+        onSave={() => deleteBook(id)}
+      />
     </div>
   );
 }

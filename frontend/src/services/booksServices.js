@@ -1,4 +1,4 @@
-import { getData, insertBook } from "@/utils/api";
+import { getData, insertBook, deleteBook } from "@/utils/api";
 
 export const BookService = {
   getAllBooks: async () => {
@@ -13,6 +13,10 @@ export const BookService = {
   },
 
   insertNewBook: async ({ book }) => {
-    const response = await insertBook({ book });
+    await insertBook({ book });
+  },
+
+  deleteBookById: async ({ id }) => {
+    await deleteBook({ id });
   },
 };

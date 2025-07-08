@@ -6,6 +6,7 @@ export const useBooks = () => {
   const [book, setBook] = useState(null);
   const [inputSearch, setInputSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalConfirmOpen, setIsModalConfirmOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [autor, setAutor] = useState("");
   const [description, setDescription] = useState("");
@@ -34,6 +35,10 @@ export const useBooks = () => {
     const response = await BookService.insertNewBook({ book });
     resetVariables();
     fetchBooks();
+  };
+
+  const deleteBook = async (id) => {
+    await BookService.deleteBookById({ id });
   };
 
   const filterBooks = () => {
@@ -84,5 +89,9 @@ export const useBooks = () => {
     postBook,
     fetchBookDetails,
     book,
+    deleteBook,
+    isModalConfirmOpen,
+    handleSeteModalConfirmOpen: () => setIsModalConfirmOpen(true),
+    handleSeteModalConfirmClose: () => setIsModalConfirmOpen(false),
   };
 };

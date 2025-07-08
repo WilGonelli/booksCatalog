@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./home.module.css";
 import DatePicker from "react-datepicker";
 import { ptBR } from "date-fns/locale";
@@ -24,7 +24,7 @@ const Modal = ({
   onSave,
 }) => {
   if (!isOpen) {
-    return null; // Don't render if not open
+    return null;
   }
 
   return (

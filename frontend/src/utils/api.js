@@ -38,3 +38,10 @@ export async function insertBook({ book }) {
       console.error("Error:", error);
     });
 }
+
+export async function deleteBook({ id }) {
+  console.log(id);
+  return fetch(`${baseUrl}/book/${id}`, {
+    method: "DELETE",
+  });
+}
