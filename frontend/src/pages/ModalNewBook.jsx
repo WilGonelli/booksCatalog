@@ -27,6 +27,8 @@ const Modal = ({
     return null;
   }
 
+  console.log(imagePreview);
+
   return (
     <div className={styles.containerModal}>
       <div className={styles.containerFormsNewBook}>
@@ -67,11 +69,9 @@ const Modal = ({
               id="image"
               accept="image/*"
               onChange={(e) => {
-                console.log(e.target.files);
                 setImage(e.target.files[0]);
                 setImagePreview(URL.createObjectURL(e.target.files[0]));
               }}
-              placeholder="Escolher imagem"
               className={styles.inputImage}
             />
             {imagePreview && (
