@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import styles from "./home.module.css";
 import ModalConfirm from "@/components/modals/ConfirmModal";
+import Modal from "./ModalNewBook";
 
 export default function BookDetail() {
   const router = useRouter();
@@ -19,6 +20,18 @@ export default function BookDetail() {
     isModalConfirmOpen,
     handleCloseModal,
     handleOpenModal,
+    title,
+    setTitle,
+    autor,
+    setAutor,
+    description,
+    setDescription,
+    publishDate,
+    setPublishDate,
+    setImage,
+    imagePreview,
+    setImagePreview,
+    postBook,
   } = useBooks();
 
   useEffect(() => {
@@ -45,7 +58,15 @@ export default function BookDetail() {
                 className={styles.containerButtomsHeader}
                 style={{ gap: 32 }}
               >
-                <p style={{ cursor: "pointer" }}> Editar </p>
+                <p
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    handleOpenModal();
+                  }}
+                >
+                  {" "}
+                  Editar{" "}
+                </p>
                 <p
                   className={styles.deleteBtn}
                   style={{ cursor: "pointer" }}
@@ -76,14 +97,39 @@ export default function BookDetail() {
                 alt={book.title}
               />
             </div>
+            <ModalConfirm
+              isOpen={isModalConfirmOpen}
+              onClose={handleSeteModalConfirmClose}
+              onSave={() => deleteBook(id)}
+            />
+            <Modal
+              isOpen={isModalOpen}
+              onClose={handleCloseModal}
+              textModalTitle={"Editar livro"}
+              title={title ? title : book.title}
+              setTitle={setTitle}
+              autor={autor ? autor : book.autor}
+              setAutor={setAutor}
+              description={description ? description : book.description}
+              setDescription={setDescription}
+              publishDate={
+                publishDate
+                  ? new Date(publishDate)
+                  : new Date(book.publish_date)
+              }
+              setPublishDate={setPublishDate}
+              setImage={setImage}
+              imagePreview={
+                imagePreview
+                  ? imagePreview
+                  : `http://localhost:8080${book.image}`
+              }
+              setImagePreview={setImagePreview}
+              onSave={postBook}
+            />
           </div>
         )}
       </div>
-      <ModalConfirm
-        isOpen={isModalConfirmOpen}
-        onClose={handleSeteModalConfirmClose}
-        onSave={() => deleteBook(id)}
-      />
     </div>
   );
 }
