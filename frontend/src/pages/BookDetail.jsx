@@ -1,7 +1,7 @@
 import { useBooks } from "@/viewmodels/bookViewModel";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaChevronLeft } from "react-icons/fa";
 import styles from "./home.module.css";
 import ModalConfirm from "@/components/modals/ConfirmModal";
@@ -31,7 +31,7 @@ export default function BookDetail() {
     setImage,
     imagePreview,
     setImagePreview,
-    postBook,
+    updateBook,
   } = useBooks();
 
   useEffect(() => {
@@ -125,7 +125,9 @@ export default function BookDetail() {
                   : `http://localhost:8080${book.image}`
               }
               setImagePreview={setImagePreview}
-              onSave={postBook}
+              onSave={() => {
+                updateBook(id);
+              }}
             />
           </div>
         )}

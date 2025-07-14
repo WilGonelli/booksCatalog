@@ -6,7 +6,9 @@ export const validateBook = (
   next: NextFunction
 ) => {
   try {
-    if (
+    if (req.method.toLowerCase() === "put") {
+      return next();
+    } else if (
       !req.file ||
       !req.body.title ||
       !req.body.autor ||

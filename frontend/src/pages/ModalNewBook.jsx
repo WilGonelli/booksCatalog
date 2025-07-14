@@ -27,8 +27,6 @@ const Modal = ({
     return null;
   }
 
-  console.log(imagePreview);
-
   return (
     <div className={styles.containerModal}>
       <div className={styles.containerFormsNewBook}>

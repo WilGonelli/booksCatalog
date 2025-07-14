@@ -15,18 +15,26 @@ export const getBooks = async () => {
 };
 
 export const updateBook = async (book: DataBooksToSend, id: string) => {
-  const [result] = await db.execute(
-    "UPDATE books SET title = ?, autor = ?, publish_date = ?, image = ?, description = ? WHERE id = ?",
-    [
-      book.title,
-      book.autor,
-      book.publish_date,
-      book.image,
-      book.description,
-      id,
-    ]
-  );
-  return result;
+  if (book.image !== undefined) {
+    const [result] = await db.execute(
+      "UPDATE books SET title = ?, autor = ?, publish_date = ?, image = ?, description = ? WHERE id = ?",
+      [
+        book.title,
+        book.autor,
+        book.publish_date,
+        book.image,
+        book.description,
+        id,
+      ]
+    );
+    return result;
+  } else {
+    const [result] = await db.execute(
+      "UPDATE books SET title = ?, autor = ?, publish_date = ?, description = ? WHERE id = ?",
+      [book.title, book.autor, book.publish_date, book.description, id]
+    );
+    return result;
+  }
 };
 
 export const deleteBook = async (id: string) => {
