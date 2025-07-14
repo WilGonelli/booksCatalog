@@ -13,7 +13,7 @@ interface DataBooksToSend {
   title: string;
   autor: string;
   publish_date: string;
-  image: string;
+  image?: string;
   description: string;
 }
 

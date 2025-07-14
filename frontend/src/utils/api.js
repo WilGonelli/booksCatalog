@@ -32,16 +32,41 @@ export async function insertBook({ book }) {
       return response.json();
     })
     .then((data) => {
-      console.log("Success:", data);
+      // console.log("Success:", data);
     })
     .catch((error) => {
-      console.error("Error:", error);
+      // console.error("Error:", error);
     });
 }
 
 export async function deleteBook({ id }) {
-  console.log(id);
   return fetch(`${baseUrl}/book/${id}`, {
     method: "DELETE",
   });
+}
+
+export async function updateBook({ id, book }) {
+  const formData = new FormData();
+  formData.append("title", book.title);
+  formData.append("autor", book.autor);
+  formData.append("publish_date", book.publishDate);
+  formData.append("description", book.description);
+  book.image && formData.append("image", book.image, book.image.name);
+
+  return fetch(`${baseUrl}/book/${id}`, {
+    method: "PUT",
+    body: formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Nok2");
+      }
+      return response;
+    })
+    .then((data) => {
+      // console.log("Success:", data);
+    })
+    .catch((error) => {
+      // console.error("Error:", error);
+    });
 }

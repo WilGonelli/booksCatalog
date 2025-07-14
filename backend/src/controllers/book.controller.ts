@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as bookRepository from "../repositories/book.repository";
 import { DataBooksToSend } from "../models/IBooks";
 import * as bookservice from "../services/book.services";
+import { imageSave } from "../utils/asyncStorageIMG";
 
 const validateBook = (body: DataBooksToSend, file: any) => {
   const book = {
@@ -38,26 +39,24 @@ export const searchBook = async (req: Request, res: Response) => {
 };
 
 export const updateBookInfo = async (req: Request, res: Response) => {
-  if (!req.file || !req.body) {
-    res.status(400).send("Nenhuma imagem foi enviada.");
-    return;
-  }
-  const formatDate = (date: string) => {
-    const [day, month, year] = date.split("/");
-    return `${year}-${month}-${day}`;
-  };
-  const data: DataBooksToSend = {
-    title: req.body.title,
-    autor: req.body.autor,
-    publish_date: formatDate(
-      new Date(req.body.publish_date).toLocaleDateString()
-    ),
-    image: `/images/img-${req.file.originalname.replaceAll(/ /g, "-")}`,
-    description: req.body.description,
-  };
   try {
-    await bookRepository.updateBook(data, req.params.id);
-    res.status(201).send("Livro adicionado");
+    const formatDate = (date: string) => {
+      const [day, month, year] = date.split("/");
+      return `${year}-${month}-${day}`;
+    };
+    const data: DataBooksToSend = {
+      title: req.body.title,
+      autor: req.body.autor,
+      publish_date: formatDate(
+        new Date(req.body.publish_date).toLocaleDateString()
+      ),
+      image:
+        req.file &&
+        `/images/img-${req.file.originalname.replaceAll(/ /g, "-")}`,
+      description: req.body.description,
+    };
+    const response = await bookRepository.updateBook(data, req.params.id);
+    res.status(201).send("livro atualizado");
   } catch (err) {
     res.status(400).json({ error: "erro ao adicionar o livro" });
   }

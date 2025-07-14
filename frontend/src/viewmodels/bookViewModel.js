@@ -21,7 +21,13 @@ export const useBooks = () => {
 
   const fetchBookDetails = async (id) => {
     const response = await BookService.getOneBook(id);
-    setBook(response[0]);
+    if (response.length > 0) {
+      setAutor(response[0].autor);
+      setTitle(response[0].title);
+      setDescription(response[0].description);
+      setPublishDate(new Date(response[0].publish_date));
+      setBook(response[0]);
+    }
   };
 
   const postBook = async () => {
@@ -32,13 +38,26 @@ export const useBooks = () => {
       publishDate: new Date(publishDate).toLocaleString().split(",")[0],
       image: image,
     };
-    const response = await BookService.insertNewBook({ book });
+    await BookService.insertNewBook({ book });
     resetVariables();
     fetchBooks();
   };
 
   const deleteBook = async (id) => {
     await BookService.deleteBookById({ id });
+  };
+
+  const updateBook = async (id) => {
+    const book = {
+      title: title,
+      autor: autor,
+      description: description,
+      publishDate: new Date(publishDate).toLocaleString().split(",")[0],
+      image: image,
+    };
+    await BookService.updateBookById({ id, book });
+    resetVariables();
+    fetchBookDetails(id);
   };
 
   const filterBooks = () => {
@@ -93,5 +112,6 @@ export const useBooks = () => {
     isModalConfirmOpen,
     handleSeteModalConfirmOpen: () => setIsModalConfirmOpen(true),
     handleSeteModalConfirmClose: () => setIsModalConfirmOpen(false),
+    updateBook,
   };
 };
