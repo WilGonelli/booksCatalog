@@ -41,23 +41,26 @@ export const searchBook = async (req: Request, res: Response) => {
 export const updateBookInfo = async (req: Request, res: Response) => {
   try {
     const formatDate = (date: string) => {
+      console.log(date, req.body.publish_date);
       const [day, month, year] = date.split("/");
       return `${year}-${month}-${day}`;
     };
+
     const data: DataBooksToSend = {
       title: req.body.title,
       autor: req.body.autor,
-      publish_date: formatDate(
-        new Date(req.body.publish_date).toLocaleDateString()
-      ),
+      publish_date: formatDate(req.body.publish_date),
       image:
         req.file &&
         `/images/img-${req.file.originalname.replaceAll(/ /g, "-")}`,
       description: req.body.description,
     };
+    console.log(data);
     const response = await bookRepository.updateBook(data, req.params.id);
+    console.log(data, response);
     res.status(201).send("livro atualizado");
   } catch (err) {
+    console.log(err);
     res.status(400).json({ error: "erro ao adicionar o livro" });
   }
 };

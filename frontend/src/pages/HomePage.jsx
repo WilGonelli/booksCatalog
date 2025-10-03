@@ -27,6 +27,7 @@ export default function HomePage() {
     setImagePreview,
     postBook,
   } = useBooks();
+
   return (
     <div className={styles.containerDefault}>
       <div className={styles.containerHome}>
@@ -67,7 +68,7 @@ export default function HomePage() {
                     <div className={styles.containerImage}>
                       <img
                         className={styles.image}
-                        src={`http://localhost:8080${book.image}`}
+                        src={`http://localhost:8081${book.image}`}
                       />
                     </div>
                     <div className={styles.contaonerInfo}>

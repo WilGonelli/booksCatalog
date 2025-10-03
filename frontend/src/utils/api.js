@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8080";
+const baseUrl = "http://localhost:8081";
 export async function getData() {
   try {
     const response = await fetch(`${baseUrl}/books`);
@@ -46,6 +46,7 @@ export async function deleteBook({ id }) {
 }
 
 export async function updateBook({ id, book }) {
+  console.log(id, book);
   const formData = new FormData();
   formData.append("title", book.title);
   formData.append("autor", book.autor);
@@ -58,15 +59,16 @@ export async function updateBook({ id, book }) {
     body: formData,
   })
     .then((response) => {
+      console.log(response);
       if (!response.ok) {
         throw new Error("Nok2");
       }
       return response;
     })
     .then((data) => {
-      // console.log("Success:", data);
+      console.log("Success:", data);
     })
     .catch((error) => {
-      // console.error("Error:", error);
+      console.error("Error:", error);
     });
 }

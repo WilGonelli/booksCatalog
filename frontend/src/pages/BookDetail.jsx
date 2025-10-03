@@ -93,7 +93,7 @@ export default function BookDetail() {
               </div>
               <img
                 className={styles.imageDetails}
-                src={`http://localhost:8080${book.image}`}
+                src={`http://localhost:8081${book.image}`}
                 alt={book.title}
               />
             </div>
@@ -122,7 +122,7 @@ export default function BookDetail() {
               imagePreview={
                 imagePreview
                   ? imagePreview
-                  : `http://localhost:8080${book.image}`
+                  : `http://localhost:8081${book.image}`
               }
               setImagePreview={setImagePreview}
               onSave={() => {
